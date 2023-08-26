@@ -5,14 +5,18 @@
  */
 
 #include "../include/uart_devel.h"
+#include <string.h>
 
+#define __USE_INTERUPPT 1
 #ifndef FOSC
 	#define FOSC 16000000UL //Arduino has a 16MHz clock
 	#warning Considering Default clock of 16MHz
 #endif
-
+#define F_CPU FOSC
 #define calc_UBRR(x,y) y = (FOSC/16/x) - 1
-
+#define MTU 10
+uint8_t ringBuff[2*MTU] ={0x00};
+int8_t startIndex = 0x00, currentIndex = 0x00, dataReady = 0x00;
 
 //function to set baud rate
 void set_baudRate(uint16_t *baudrate) {
@@ -24,10 +28,16 @@ void set_baudRate(uint16_t *baudrate) {
 
 //function to set initial configuration
 void UART_inital_configuration(struct uartConfig *__UART_CONFIGURATION) {
-    set_baudRate(&__UART_CONFIGURATION->baudrate);
+	set_baudRate(&__UART_CONFIGURATION->baudrate);
     //UCSR0B is a 8bit Register where each bit means a configuration
     //see ATMEGA_328p_IO.h for reference.
-    UCSR0B = (1<<RXEN0)|(1<<TXEN0); //enable both receiver and tranmitter
+	if(!__USE_INTERUPPT)
+		UCSR0B = (1<<RXEN0)|(1<<TXEN0); //enable both receiver and tranmitter
+	else {
+		startIndex = currentIndex = 0x00;
+		UCSR0B = (1<<RXCIE0)|(1<<RXEN0)|(1<<TXEN0); //enable both receiver and tranmitter, also enable interupt for Rx and User Data Registry Empty
+		sei();
+	}
     // Set frame format: 8data, 2stop bit */
     //set data format
     //case 5: 5bit
@@ -120,4 +130,23 @@ void readUART_Poll(uint8_t *buffer, int32_t *len, struct uartConfig *__UART_CONF
                 break;
     }
     
+}
+
+void popRingBuffer(uint8_t *buffer, int32_t *len) {
+	memcpy(buffer, (const void *)ringBuff[currentIndex], sizeof(uint8_t)*MTU);
+	dataReady = 0x00;
+	*len = MTU;
+	currentIndex+= MTU;
+	if(currentIndex>=(2*MTU)) {
+		currentIndex = 0x00;
+	}
+}
+
+ISR(USART_RX_vect) {
+	ringBuff[startIndex] = UDR0;
+	if((startIndex%MTU)==0x00)
+		dataReady = 0x1;
+	startIndex++;
+	if(startIndex>=(2*MTU)) 
+		startIndex = 0x00;	
 }

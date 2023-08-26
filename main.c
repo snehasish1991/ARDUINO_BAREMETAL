@@ -26,16 +26,19 @@ void setup_peripherals(struct uartConfig *__UART_CONFIGURATION)
 	/***********UART Initial Configuration ends*********************/
 }
 
-int32_t  main(void)
+int32_t main(void)
 {
     /* Replace with your application code */
 	char buffer[20]={0x00}; //{0x01, 0x02, 0x03, 0x04, 0x05};
 	struct uartConfig __UART_CONFIGURATION;
 	setup_peripherals(&__UART_CONFIGURATION);
-	int32_t len = 11; //strlen("hello world");
+	int32_t len = 0x00; //strlen("hello world");
     while (1) 
     {
-		readUART_Poll((uint8_t *)buffer, &len, &__UART_CONFIGURATION);
+		//readUART_Poll((uint8_t *)buffer, &len, &__UART_CONFIGURATION);
+		if(dataReady) {
+			popRingBuffer(buffer, &len);
+		}
 		_delay_ms(10000);
 		//if(strlen(buffer)>0x00)
 		transmitUART_Poll((uint8_t *)buffer, &len, &__UART_CONFIGURATION);

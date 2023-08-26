@@ -162,6 +162,21 @@
     <Folder Include="Drivers" />
     <Folder Include="Drivers\include" />
     <Folder Include="Drivers\src" />
+    <Folder Include="Docs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Docs\arduino-uno-schematic.pdf">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="Docs\atmega328p reference manual.pdf">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="Docs\Atmel-7810-Automotive-Microcontrollers-ATmega328P_Datasheet.pdf">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="README.md">
+      <SubType>compile</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>

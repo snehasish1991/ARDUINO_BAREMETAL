@@ -35,7 +35,8 @@ LINKER_SCRIPT_DEP:=
 SUBDIRS :=  \
 ../Drivers \
 ../Drivers/include \
-../Drivers/src
+../Drivers/src \
+../Docs
 
 
 # Add inputs and outputs from these tool invocations to the build variables 
