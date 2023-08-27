@@ -133,19 +133,22 @@ void readUART_Poll(uint8_t *buffer, int32_t *len, struct uartConfig *__UART_CONF
 }
 
 void popRingBuffer(uint8_t *buffer, int32_t *len) {
-	memcpy(buffer, (const void *)ringBuff[currentIndex], sizeof(uint8_t)*MTU);
-	dataReady = 0x00;
-	*len = MTU;
-	currentIndex+= MTU;
-	if(currentIndex>=(2*MTU)) {
-		currentIndex = 0x00;
-	}
+	//logic for popping out of ringbuffer
 }
-
+int32_t count = 0;
 ISR(USART_RX_vect) {
 	ringBuff[startIndex] = UDR0;
-	if((startIndex%MTU)==0x00)
-		dataReady = 0x1;
+	#if 0
+	if(ringBuff[startIndex]=='d')
+	{
+		for(count=0;count<startIndex;count++) {
+			while (!(UCSR0A & (1<<UDRE0))); //wait for trasnmit buffer to be empty
+			//byte = (uint8_t)buffer[i];
+			UDR0 = ringBuff[count]; //(uint8_t)buffer[i]; //copy data to register to be trasnmitted
+			while (!(UCSR0A & (1<<TXC0))); //check if transmission is complete
+		}
+	}
+	#endif
 	startIndex++;
 	if(startIndex>=(2*MTU)) 
 		startIndex = 0x00;	

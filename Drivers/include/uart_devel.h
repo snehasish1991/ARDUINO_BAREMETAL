@@ -30,6 +30,7 @@ void UART_inital_configuration(struct uartConfig *__UART_CONFIGURATION);
 void set_baudRate(uint16_t *baudrate);
 void readUART_Poll(uint8_t *buffer, int32_t *len, struct uartConfig *__UART_CONFIGURATION);
 void transmitUART_Poll(uint8_t *buffer, int32_t *len, struct uartConfig *__UART_CONFIGURATION);
+void popRingBuffer(uint8_t *buffer, int32_t *len);
 
 extern int8_t dataReady;
 

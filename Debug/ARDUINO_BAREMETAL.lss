@@ -3,31 +3,31 @@ ARDUINO_BAREMETAL.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  000003b6  2**0
+  0 .data         00000000  00800100  00800100  0000029e  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000342  00000000  00000000  00000074  2**1
+  1 .text         0000022a  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000017  00800100  00800100  000003b6  2**0
+  2 .bss          00000016  00800100  00800100  0000029e  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  000003b6  2**0
+  3 .comment      00000030  00000000  00000000  0000029e  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000003e8  2**2
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000002d0  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000070  00000000  00000000  00000428  2**0
+  5 .debug_aranges 00000070  00000000  00000000  00000310  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00000be1  00000000  00000000  00000498  2**0
+  6 .debug_info   00000b67  00000000  00000000  00000380  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000888  00000000  00000000  00001079  2**0
+  7 .debug_abbrev 0000085f  00000000  00000000  00000ee7  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000545  00000000  00000000  00001901  2**0
+  8 .debug_line   0000053c  00000000  00000000  00001746  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000110  00000000  00000000  00001e48  2**2
+  9 .debug_frame  00000148  00000000  00000000  00001c84  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000511  00000000  00000000  00001f58  2**0
+ 10 .debug_str    00000517  00000000  00000000  00001dcc  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000443  00000000  00000000  00002469  2**0
+ 11 .debug_loc    00000552  00000000  00000000  000022e3  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000050  00000000  00000000  000028ac  2**0
+ 12 .debug_ranges 00000050  00000000  00000000  00002835  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -51,7 +51,7 @@ Disassembly of section .text:
   3c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
   40:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
   44:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
-  48:	0c 94 fe 00 	jmp	0x1fc	; 0x1fc <__vector_18>
+  48:	0c 94 a9 00 	jmp	0x152	; 0x152 <__vector_18>
   4c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
   50:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
   54:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
@@ -78,21 +78,21 @@ Disassembly of section .text:
   7c:	1d 92       	st	X+, r1
 
 0000007e <.do_clear_bss_start>:
-  7e:	a7 31       	cpi	r26, 0x17	; 23
+  7e:	a6 31       	cpi	r26, 0x16	; 22
   80:	b2 07       	cpc	r27, r18
   82:	e1 f7       	brne	.-8      	; 0x7c <.do_clear_bss_loop>
-  84:	0e 94 45 01 	call	0x28a	; 0x28a <main>
-  88:	0c 94 9f 01 	jmp	0x33e	; 0x33e <_exit>
+  84:	0e 94 dc 00 	call	0x1b8	; 0x1b8 <main>
+  88:	0c 94 13 01 	jmp	0x226	; 0x226 <_exit>
 
 0000008c <__bad_interrupt>:
   8c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 00000090 <set_baudRate>:
-                break;
-        case 9: //TODO for databit size 9
-                break;
-    }
-    
+		//currentIndex+= MTU;
+		if(currentIndex>=(2*MTU)) {
+			currentIndex = 0x00;
+		}
+	}
 }
   90:	fc 01       	movw	r30, r24
   92:	20 81       	ld	r18, Z
@@ -103,7 +103,7 @@ Disassembly of section .text:
   9c:	72 e4       	ldi	r23, 0x42	; 66
   9e:	8f e0       	ldi	r24, 0x0F	; 15
   a0:	90 e0       	ldi	r25, 0x00	; 0
-  a2:	0e 94 7d 01 	call	0x2fa	; 0x2fa <__udivmodsi4>
+  a2:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <__udivmodsi4>
   a6:	21 50       	subi	r18, 0x01	; 1
   a8:	31 09       	sbc	r19, r1
   aa:	c9 01       	movw	r24, r18
@@ -119,8 +119,8 @@ Disassembly of section .text:
   be:	ec 01       	movw	r28, r24
   c0:	04 96       	adiw	r24, 0x04	; 4
   c2:	0e 94 48 00 	call	0x90	; 0x90 <set_baudRate>
-  c6:	10 92 01 01 	sts	0x0101, r1	; 0x800101 <currentIndex>
-  ca:	10 92 02 01 	sts	0x0102, r1	; 0x800102 <startIndex>
+  c6:	10 92 00 01 	sts	0x0100, r1	; 0x800100 <__DATA_REGION_ORIGIN__>
+  ca:	10 92 01 01 	sts	0x0101, r1	; 0x800101 <startIndex>
   ce:	88 e9       	ldi	r24, 0x98	; 152
   d0:	80 93 c1 00 	sts	0x00C1, r24	; 0x8000c1 <__TEXT_REGION_LENGTH__+0x7f80c1>
   d4:	78 94       	sei
@@ -183,314 +183,164 @@ Disassembly of section .text:
  14e:	cf 91       	pop	r28
  150:	08 95       	ret
 
-00000152 <transmitUART_Poll>:
- 152:	0f 93       	push	r16
- 154:	1f 93       	push	r17
- 156:	cf 93       	push	r28
- 158:	df 93       	push	r29
- 15a:	fc 01       	movw	r30, r24
- 15c:	db 01       	movw	r26, r22
- 15e:	ea 01       	movw	r28, r20
- 160:	8b 81       	ldd	r24, Y+3	; 0x03
- 162:	85 50       	subi	r24, 0x05	; 5
- 164:	84 30       	cpi	r24, 0x04	; 4
- 166:	a0 f0       	brcs	.+40     	; 0x190 <transmitUART_Poll+0x3e>
- 168:	20 c0       	rjmp	.+64     	; 0x1aa <transmitUART_Poll+0x58>
- 16a:	90 91 c0 00 	lds	r25, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
- 16e:	95 ff       	sbrs	r25, 5
- 170:	fc cf       	rjmp	.-8      	; 0x16a <transmitUART_Poll+0x18>
- 172:	ef 01       	movw	r28, r30
- 174:	c4 0f       	add	r28, r20
- 176:	d5 1f       	adc	r29, r21
- 178:	98 81       	ld	r25, Y
- 17a:	90 93 c6 00 	sts	0x00C6, r25	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
- 17e:	90 91 c0 00 	lds	r25, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
- 182:	96 ff       	sbrs	r25, 6
- 184:	fc cf       	rjmp	.-8      	; 0x17e <transmitUART_Poll+0x2c>
- 186:	4f 5f       	subi	r20, 0xFF	; 255
- 188:	5f 4f       	sbci	r21, 0xFF	; 255
- 18a:	6f 4f       	sbci	r22, 0xFF	; 255
- 18c:	7f 4f       	sbci	r23, 0xFF	; 255
- 18e:	03 c0       	rjmp	.+6      	; 0x196 <transmitUART_Poll+0x44>
- 190:	40 e0       	ldi	r20, 0x00	; 0
- 192:	50 e0       	ldi	r21, 0x00	; 0
- 194:	ba 01       	movw	r22, r20
- 196:	0d 91       	ld	r16, X+
- 198:	1d 91       	ld	r17, X+
- 19a:	2d 91       	ld	r18, X+
- 19c:	3c 91       	ld	r19, X
- 19e:	13 97       	sbiw	r26, 0x03	; 3
- 1a0:	40 17       	cp	r20, r16
- 1a2:	51 07       	cpc	r21, r17
- 1a4:	62 07       	cpc	r22, r18
- 1a6:	73 07       	cpc	r23, r19
- 1a8:	04 f3       	brlt	.-64     	; 0x16a <transmitUART_Poll+0x18>
- 1aa:	df 91       	pop	r29
- 1ac:	cf 91       	pop	r28
- 1ae:	1f 91       	pop	r17
- 1b0:	0f 91       	pop	r16
- 1b2:	08 95       	ret
-
-000001b4 <popRingBuffer>:
-
-void popRingBuffer(uint8_t *buffer, int32_t *len) {
- 1b4:	dc 01       	movw	r26, r24
-	memcpy(buffer, (const void *)ringBuff[currentIndex], sizeof(uint8_t)*MTU);
- 1b6:	e0 91 01 01 	lds	r30, 0x0101	; 0x800101 <currentIndex>
- 1ba:	0e 2e       	mov	r0, r30
- 1bc:	00 0c       	add	r0, r0
- 1be:	ff 0b       	sbc	r31, r31
- 1c0:	ed 5f       	subi	r30, 0xFD	; 253
- 1c2:	fe 4f       	sbci	r31, 0xFE	; 254
- 1c4:	e0 81       	ld	r30, Z
- 1c6:	f0 e0       	ldi	r31, 0x00	; 0
- 1c8:	9a e0       	ldi	r25, 0x0A	; 10
- 1ca:	01 90       	ld	r0, Z+
- 1cc:	0d 92       	st	X+, r0
- 1ce:	9a 95       	dec	r25
- 1d0:	e1 f7       	brne	.-8      	; 0x1ca <popRingBuffer+0x16>
-	dataReady = 0x00;
- 1d2:	10 92 00 01 	sts	0x0100, r1	; 0x800100 <__DATA_REGION_ORIGIN__>
-	*len = MTU;
- 1d6:	8a e0       	ldi	r24, 0x0A	; 10
- 1d8:	90 e0       	ldi	r25, 0x00	; 0
- 1da:	a0 e0       	ldi	r26, 0x00	; 0
- 1dc:	b0 e0       	ldi	r27, 0x00	; 0
- 1de:	fb 01       	movw	r30, r22
- 1e0:	80 83       	st	Z, r24
- 1e2:	91 83       	std	Z+1, r25	; 0x01
- 1e4:	a2 83       	std	Z+2, r26	; 0x02
- 1e6:	b3 83       	std	Z+3, r27	; 0x03
-	currentIndex+= MTU;
- 1e8:	80 91 01 01 	lds	r24, 0x0101	; 0x800101 <currentIndex>
- 1ec:	86 5f       	subi	r24, 0xF6	; 246
- 1ee:	80 93 01 01 	sts	0x0101, r24	; 0x800101 <currentIndex>
-	if(currentIndex>=(2*MTU)) {
- 1f2:	84 31       	cpi	r24, 0x14	; 20
- 1f4:	14 f0       	brlt	.+4      	; 0x1fa <popRingBuffer+0x46>
-		currentIndex = 0x00;
- 1f6:	10 92 01 01 	sts	0x0101, r1	; 0x800101 <currentIndex>
- 1fa:	08 95       	ret
-
-000001fc <__vector_18>:
-	}
-}
-
+00000152 <__vector_18>:
+int32_t count = 0;
 ISR(USART_RX_vect) {
- 1fc:	1f 92       	push	r1
- 1fe:	0f 92       	push	r0
- 200:	0f b6       	in	r0, 0x3f	; 63
- 202:	0f 92       	push	r0
- 204:	11 24       	eor	r1, r1
- 206:	2f 93       	push	r18
- 208:	8f 93       	push	r24
- 20a:	9f 93       	push	r25
- 20c:	ef 93       	push	r30
- 20e:	ff 93       	push	r31
+ 152:	1f 92       	push	r1
+ 154:	0f 92       	push	r0
+ 156:	0f b6       	in	r0, 0x3f	; 63
+ 158:	0f 92       	push	r0
+ 15a:	11 24       	eor	r1, r1
+ 15c:	8f 93       	push	r24
+ 15e:	9f 93       	push	r25
+ 160:	ef 93       	push	r30
+ 162:	ff 93       	push	r31
 	ringBuff[startIndex] = UDR0;
- 210:	90 91 02 01 	lds	r25, 0x0102	; 0x800102 <startIndex>
- 214:	e9 2f       	mov	r30, r25
- 216:	09 2e       	mov	r0, r25
- 218:	00 0c       	add	r0, r0
- 21a:	ff 0b       	sbc	r31, r31
- 21c:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
- 220:	ed 5f       	subi	r30, 0xFD	; 253
- 222:	fe 4f       	sbci	r31, 0xFE	; 254
- 224:	80 83       	st	Z, r24
-	if((startIndex%MTU)==0x00)
- 226:	87 e6       	ldi	r24, 0x67	; 103
- 228:	98 02       	muls	r25, r24
- 22a:	81 2d       	mov	r24, r1
- 22c:	11 24       	eor	r1, r1
- 22e:	85 95       	asr	r24
- 230:	85 95       	asr	r24
- 232:	97 fd       	sbrc	r25, 7
- 234:	83 95       	inc	r24
- 236:	88 0f       	add	r24, r24
- 238:	28 2f       	mov	r18, r24
- 23a:	22 0f       	add	r18, r18
- 23c:	22 0f       	add	r18, r18
- 23e:	82 0f       	add	r24, r18
- 240:	98 13       	cpse	r25, r24
- 242:	03 c0       	rjmp	.+6      	; 0x24a <__vector_18+0x4e>
-		dataReady = 0x1;
- 244:	81 e0       	ldi	r24, 0x01	; 1
- 246:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 164:	80 91 01 01 	lds	r24, 0x0101	; 0x800101 <startIndex>
+ 168:	e8 2f       	mov	r30, r24
+ 16a:	08 2e       	mov	r0, r24
+ 16c:	00 0c       	add	r0, r0
+ 16e:	ff 0b       	sbc	r31, r31
+ 170:	90 91 c6 00 	lds	r25, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+ 174:	ee 5f       	subi	r30, 0xFE	; 254
+ 176:	fe 4f       	sbci	r31, 0xFE	; 254
+ 178:	90 83       	st	Z, r25
+			UDR0 = ringBuff[count]; //(uint8_t)buffer[i]; //copy data to register to be trasnmitted
+			while (!(UCSR0A & (1<<TXC0))); //check if transmission is complete
+		}
+	}
+	#endif
 	startIndex++;
- 24a:	9f 5f       	subi	r25, 0xFF	; 255
- 24c:	90 93 02 01 	sts	0x0102, r25	; 0x800102 <startIndex>
+ 17a:	8f 5f       	subi	r24, 0xFF	; 255
+ 17c:	80 93 01 01 	sts	0x0101, r24	; 0x800101 <startIndex>
 	if(startIndex>=(2*MTU)) 
- 250:	94 31       	cpi	r25, 0x14	; 20
- 252:	14 f0       	brlt	.+4      	; 0x258 <__vector_18+0x5c>
+ 180:	84 31       	cpi	r24, 0x14	; 20
+ 182:	14 f0       	brlt	.+4      	; 0x188 <__vector_18+0x36>
 		startIndex = 0x00;	
- 254:	10 92 02 01 	sts	0x0102, r1	; 0x800102 <startIndex>
+ 184:	10 92 01 01 	sts	0x0101, r1	; 0x800101 <startIndex>
 }
- 258:	ff 91       	pop	r31
- 25a:	ef 91       	pop	r30
- 25c:	9f 91       	pop	r25
- 25e:	8f 91       	pop	r24
- 260:	2f 91       	pop	r18
- 262:	0f 90       	pop	r0
- 264:	0f be       	out	0x3f, r0	; 63
- 266:	0f 90       	pop	r0
- 268:	1f 90       	pop	r1
- 26a:	18 95       	reti
+ 188:	ff 91       	pop	r31
+ 18a:	ef 91       	pop	r30
+ 18c:	9f 91       	pop	r25
+ 18e:	8f 91       	pop	r24
+ 190:	0f 90       	pop	r0
+ 192:	0f be       	out	0x3f, r0	; 63
+ 194:	0f 90       	pop	r0
+ 196:	1f 90       	pop	r1
+ 198:	18 95       	reti
 
-0000026c <setup_peripherals>:
+0000019a <setup_peripherals>:
 #include <inttypes.h>
 #include <string.h>
 #include "Drivers/include/uart_devel.h"
 
 void setup_peripherals(struct uartConfig *__UART_CONFIGURATION) 
 {
- 26c:	fc 01       	movw	r30, r24
+ 19a:	fc 01       	movw	r30, r24
 
 	/***********UART Initial Configuration begin*********************/
 	
 	
 	__UART_CONFIGURATION->mode = Asynchronous;
- 26e:	10 82       	st	Z, r1
+ 19c:	10 82       	st	Z, r1
 	__UART_CONFIGURATION->parity = NO_PARITY;
- 270:	11 82       	std	Z+1, r1	; 0x01
+ 19e:	11 82       	std	Z+1, r1	; 0x01
 	__UART_CONFIGURATION->stopBit = 1;
- 272:	81 e0       	ldi	r24, 0x01	; 1
- 274:	82 83       	std	Z+2, r24	; 0x02
+ 1a0:	81 e0       	ldi	r24, 0x01	; 1
+ 1a2:	82 83       	std	Z+2, r24	; 0x02
 	__UART_CONFIGURATION->dataBit = 8;
- 276:	88 e0       	ldi	r24, 0x08	; 8
- 278:	83 83       	std	Z+3, r24	; 0x03
+ 1a4:	88 e0       	ldi	r24, 0x08	; 8
+ 1a6:	83 83       	std	Z+3, r24	; 0x03
 	__UART_CONFIGURATION->baudrate = 9600;
- 27a:	80 e8       	ldi	r24, 0x80	; 128
- 27c:	95 e2       	ldi	r25, 0x25	; 37
- 27e:	95 83       	std	Z+5, r25	; 0x05
- 280:	84 83       	std	Z+4, r24	; 0x04
+ 1a8:	80 e8       	ldi	r24, 0x80	; 128
+ 1aa:	95 e2       	ldi	r25, 0x25	; 37
+ 1ac:	95 83       	std	Z+5, r25	; 0x05
+ 1ae:	84 83       	std	Z+4, r24	; 0x04
 	UART_inital_configuration(__UART_CONFIGURATION);
- 282:	cf 01       	movw	r24, r30
- 284:	0e 94 5d 00 	call	0xba	; 0xba <UART_inital_configuration>
- 288:	08 95       	ret
+ 1b0:	cf 01       	movw	r24, r30
+ 1b2:	0e 94 5d 00 	call	0xba	; 0xba <UART_inital_configuration>
+ 1b6:	08 95       	ret
 
-0000028a <main>:
+000001b8 <main>:
 
 	/***********UART Initial Configuration ends*********************/
 }
 
 int32_t main(void)
 {
- 28a:	cf 93       	push	r28
- 28c:	df 93       	push	r29
- 28e:	cd b7       	in	r28, 0x3d	; 61
- 290:	de b7       	in	r29, 0x3e	; 62
- 292:	6e 97       	sbiw	r28, 0x1e	; 30
- 294:	0f b6       	in	r0, 0x3f	; 63
- 296:	f8 94       	cli
- 298:	de bf       	out	0x3e, r29	; 62
- 29a:	0f be       	out	0x3f, r0	; 63
- 29c:	cd bf       	out	0x3d, r28	; 61
+ 1b8:	cf 93       	push	r28
+ 1ba:	df 93       	push	r29
+ 1bc:	00 d0       	rcall	.+0      	; 0x1be <main+0x6>
+ 1be:	00 d0       	rcall	.+0      	; 0x1c0 <main+0x8>
+ 1c0:	00 d0       	rcall	.+0      	; 0x1c2 <main+0xa>
+ 1c2:	cd b7       	in	r28, 0x3d	; 61
+ 1c4:	de b7       	in	r29, 0x3e	; 62
     /* Replace with your application code */
 	char buffer[20]={0x00}; //{0x01, 0x02, 0x03, 0x04, 0x05};
- 29e:	fe 01       	movw	r30, r28
- 2a0:	31 96       	adiw	r30, 0x01	; 1
- 2a2:	84 e1       	ldi	r24, 0x14	; 20
- 2a4:	df 01       	movw	r26, r30
- 2a6:	1d 92       	st	X+, r1
- 2a8:	8a 95       	dec	r24
- 2aa:	e9 f7       	brne	.-6      	; 0x2a6 <main+0x1c>
 	struct uartConfig __UART_CONFIGURATION;
 	setup_peripherals(&__UART_CONFIGURATION);
- 2ac:	ce 01       	movw	r24, r28
- 2ae:	45 96       	adiw	r24, 0x15	; 21
- 2b0:	0e 94 36 01 	call	0x26c	; 0x26c <setup_peripherals>
-	int32_t len = 0x00; //strlen("hello world");
- 2b4:	1b 8e       	std	Y+27, r1	; 0x1b
- 2b6:	1c 8e       	std	Y+28, r1	; 0x1c
- 2b8:	1d 8e       	std	Y+29, r1	; 0x1d
- 2ba:	1e 8e       	std	Y+30, r1	; 0x1e
-    while (1) 
-    {
-		//readUART_Poll((uint8_t *)buffer, &len, &__UART_CONFIGURATION);
-		if(dataReady) {
- 2bc:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 2c0:	88 23       	and	r24, r24
- 2c2:	39 f0       	breq	.+14     	; 0x2d2 <main+0x48>
-			popRingBuffer(buffer, &len);
- 2c4:	be 01       	movw	r22, r28
- 2c6:	65 5e       	subi	r22, 0xE5	; 229
- 2c8:	7f 4f       	sbci	r23, 0xFF	; 255
- 2ca:	ce 01       	movw	r24, r28
- 2cc:	01 96       	adiw	r24, 0x01	; 1
- 2ce:	0e 94 da 00 	call	0x1b4	; 0x1b4 <popRingBuffer>
+ 1c6:	ce 01       	movw	r24, r28
+ 1c8:	01 96       	adiw	r24, 0x01	; 1
+ 1ca:	0e 94 cd 00 	call	0x19a	; 0x19a <setup_peripherals>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 2d2:	bf e7       	ldi	r27, 0x7F	; 127
- 2d4:	24 e8       	ldi	r18, 0x84	; 132
- 2d6:	8e e1       	ldi	r24, 0x1E	; 30
- 2d8:	b1 50       	subi	r27, 0x01	; 1
- 2da:	20 40       	sbci	r18, 0x00	; 0
- 2dc:	80 40       	sbci	r24, 0x00	; 0
- 2de:	e1 f7       	brne	.-8      	; 0x2d8 <main+0x4e>
- 2e0:	00 c0       	rjmp	.+0      	; 0x2e2 <main+0x58>
- 2e2:	00 00       	nop
-		}
-		_delay_ms(10000);
-		//if(strlen(buffer)>0x00)
-		transmitUART_Poll((uint8_t *)buffer, &len, &__UART_CONFIGURATION);
- 2e4:	ae 01       	movw	r20, r28
- 2e6:	4b 5e       	subi	r20, 0xEB	; 235
- 2e8:	5f 4f       	sbci	r21, 0xFF	; 255
- 2ea:	be 01       	movw	r22, r28
- 2ec:	65 5e       	subi	r22, 0xE5	; 229
- 2ee:	7f 4f       	sbci	r23, 0xFF	; 255
- 2f0:	ce 01       	movw	r24, r28
- 2f2:	01 96       	adiw	r24, 0x01	; 1
- 2f4:	0e 94 a9 00 	call	0x152	; 0x152 <transmitUART_Poll>
-    }
- 2f8:	e1 cf       	rjmp	.-62     	; 0x2bc <main+0x32>
+ 1ce:	2f e7       	ldi	r18, 0x7F	; 127
+ 1d0:	84 e8       	ldi	r24, 0x84	; 132
+ 1d2:	9e e1       	ldi	r25, 0x1E	; 30
+ 1d4:	21 50       	subi	r18, 0x01	; 1
+ 1d6:	80 40       	sbci	r24, 0x00	; 0
+ 1d8:	90 40       	sbci	r25, 0x00	; 0
+ 1da:	e1 f7       	brne	.-8      	; 0x1d4 <main+0x1c>
+ 1dc:	00 c0       	rjmp	.+0      	; 0x1de <main+0x26>
+ 1de:	00 00       	nop
+ 1e0:	f6 cf       	rjmp	.-20     	; 0x1ce <main+0x16>
 
-000002fa <__udivmodsi4>:
- 2fa:	a1 e2       	ldi	r26, 0x21	; 33
- 2fc:	1a 2e       	mov	r1, r26
- 2fe:	aa 1b       	sub	r26, r26
- 300:	bb 1b       	sub	r27, r27
- 302:	fd 01       	movw	r30, r26
- 304:	0d c0       	rjmp	.+26     	; 0x320 <__udivmodsi4_ep>
+000001e2 <__udivmodsi4>:
+ 1e2:	a1 e2       	ldi	r26, 0x21	; 33
+ 1e4:	1a 2e       	mov	r1, r26
+ 1e6:	aa 1b       	sub	r26, r26
+ 1e8:	bb 1b       	sub	r27, r27
+ 1ea:	fd 01       	movw	r30, r26
+ 1ec:	0d c0       	rjmp	.+26     	; 0x208 <__udivmodsi4_ep>
 
-00000306 <__udivmodsi4_loop>:
- 306:	aa 1f       	adc	r26, r26
- 308:	bb 1f       	adc	r27, r27
- 30a:	ee 1f       	adc	r30, r30
- 30c:	ff 1f       	adc	r31, r31
- 30e:	a2 17       	cp	r26, r18
- 310:	b3 07       	cpc	r27, r19
- 312:	e4 07       	cpc	r30, r20
- 314:	f5 07       	cpc	r31, r21
- 316:	20 f0       	brcs	.+8      	; 0x320 <__udivmodsi4_ep>
- 318:	a2 1b       	sub	r26, r18
- 31a:	b3 0b       	sbc	r27, r19
- 31c:	e4 0b       	sbc	r30, r20
- 31e:	f5 0b       	sbc	r31, r21
+000001ee <__udivmodsi4_loop>:
+ 1ee:	aa 1f       	adc	r26, r26
+ 1f0:	bb 1f       	adc	r27, r27
+ 1f2:	ee 1f       	adc	r30, r30
+ 1f4:	ff 1f       	adc	r31, r31
+ 1f6:	a2 17       	cp	r26, r18
+ 1f8:	b3 07       	cpc	r27, r19
+ 1fa:	e4 07       	cpc	r30, r20
+ 1fc:	f5 07       	cpc	r31, r21
+ 1fe:	20 f0       	brcs	.+8      	; 0x208 <__udivmodsi4_ep>
+ 200:	a2 1b       	sub	r26, r18
+ 202:	b3 0b       	sbc	r27, r19
+ 204:	e4 0b       	sbc	r30, r20
+ 206:	f5 0b       	sbc	r31, r21
 
-00000320 <__udivmodsi4_ep>:
- 320:	66 1f       	adc	r22, r22
- 322:	77 1f       	adc	r23, r23
- 324:	88 1f       	adc	r24, r24
- 326:	99 1f       	adc	r25, r25
- 328:	1a 94       	dec	r1
- 32a:	69 f7       	brne	.-38     	; 0x306 <__udivmodsi4_loop>
- 32c:	60 95       	com	r22
- 32e:	70 95       	com	r23
- 330:	80 95       	com	r24
- 332:	90 95       	com	r25
- 334:	9b 01       	movw	r18, r22
- 336:	ac 01       	movw	r20, r24
- 338:	bd 01       	movw	r22, r26
- 33a:	cf 01       	movw	r24, r30
- 33c:	08 95       	ret
+00000208 <__udivmodsi4_ep>:
+ 208:	66 1f       	adc	r22, r22
+ 20a:	77 1f       	adc	r23, r23
+ 20c:	88 1f       	adc	r24, r24
+ 20e:	99 1f       	adc	r25, r25
+ 210:	1a 94       	dec	r1
+ 212:	69 f7       	brne	.-38     	; 0x1ee <__udivmodsi4_loop>
+ 214:	60 95       	com	r22
+ 216:	70 95       	com	r23
+ 218:	80 95       	com	r24
+ 21a:	90 95       	com	r25
+ 21c:	9b 01       	movw	r18, r22
+ 21e:	ac 01       	movw	r20, r24
+ 220:	bd 01       	movw	r22, r26
+ 222:	cf 01       	movw	r24, r30
+ 224:	08 95       	ret
 
-0000033e <_exit>:
- 33e:	f8 94       	cli
+00000226 <_exit>:
+ 226:	f8 94       	cli
 
-00000340 <__stop_program>:
- 340:	ff cf       	rjmp	.-2      	; 0x340 <__stop_program>
+00000228 <__stop_program>:
+ 228:	ff cf       	rjmp	.-2      	; 0x228 <__stop_program>

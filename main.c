@@ -35,13 +35,7 @@ int32_t main(void)
 	int32_t len = 0x00; //strlen("hello world");
     while (1) 
     {
-		//readUART_Poll((uint8_t *)buffer, &len, &__UART_CONFIGURATION);
-		if(dataReady) {
-			popRingBuffer(buffer, &len);
-		}
 		_delay_ms(10000);
-		//if(strlen(buffer)>0x00)
-		transmitUART_Poll((uint8_t *)buffer, &len, &__UART_CONFIGURATION);
     }
 	return 0x00;
 }
